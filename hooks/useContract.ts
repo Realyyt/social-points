@@ -1,6 +1,6 @@
 import { CONTRACT_ADDRESS, CONTRACT_ABI } from '@/config/contract'
 import { getContract } from 'viem'
-import { publicClient, walletClient } from './client'
+import { walletClient } from './client'
 
 export function useSocialPointsContract() {
 
@@ -24,6 +24,6 @@ export function useSocialPointsContract() {
   return getContract({
     address: CONTRACT_ADDRESS as `0x${string}`,
     abi: contractABI,
-     client: { public: publicClient, wallet: walletClient }
+    client:walletClient
   })
 } 

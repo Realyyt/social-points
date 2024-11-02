@@ -5,13 +5,14 @@ import { useSocialPointsContract } from '@/hooks/useContract'
 export default function Home() {
   const { address, isConnected } = useAccount()
   const contract = useSocialPointsContract()
-  const [playerData, setPlayerData] = useState(null)
+  type PlayerData = readonly [bigint, string, bigint, bigint, bigint]
+  const [playerData, setPlayerData] = useState<PlayerData | null>(null)
 
   useEffect(() => {
     const fetchPlayerData = async () => {
       if (isConnected && address && contract) {
         try {
-          const data = await contract.players(address)
+          const data = await contract.read.players([address])
           setPlayerData(data)
         } catch (error) {
           console.error('Error fetching player data:', error)
