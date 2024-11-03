@@ -1,10 +1,14 @@
 import { useAccount } from 'wagmi'
 import { useEffect, useState } from 'react'
-import { useSocialPointsContract } from '@/hooks/useContract'
+import { useGameContract } from '@/hooks/useContract'
+import PlayerProfile from './PlayerProfile'
+import RegistrationForm from './RegistrationForm'
+import { Player } from '@/types/player'
+import { TaskTracker } from './TaskTracker'
 
 export default function Home() {
   const { address, isConnected } = useAccount()
-  const contract = useSocialPointsContract()
+  const contract = useGameContract()
   type PlayerData = readonly [bigint, string, bigint, bigint, bigint]
   const [playerData, setPlayerData] = useState<PlayerData | null>(null)
 
@@ -37,11 +41,24 @@ export default function Home() {
       <h2 className="text-2xl font-bold">Your Profile</h2>
       {playerData ? (
         <div className="mt-4">
-          {/* Display player data */}
+          <PlayerProfile 
+            player={{
+              id: Number(playerData[0]),
+              pseudonym: playerData[1],
+              score: Number(playerData[2]),
+              lives: Number(playerData[3]),
+              lastInteractionTime: Number(playerData[4])
+            }} 
+          />
         </div>
       ) : (
         <div className="mt-4">
-          {/* Show registration form */}
+          <RegistrationForm />
+        </div>
+      )}
+      {playerData && (
+        <div className="mt-4">
+          <TaskTracker />
         </div>
       )}
     </div>

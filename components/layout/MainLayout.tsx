@@ -1,7 +1,9 @@
-import { FC, PropsWithChildren } from 'react'
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+'use client'
 
-const MainLayout: FC<PropsWithChildren> = ({ children }) => {
+import { FC, PropsWithChildren } from 'react'
+import { ConnectButton } from '@rainbow-me/rainbowkit'
+
+export const MainLayout: FC<PropsWithChildren> = ({ children }) => {
   return (
     <div className="min-h-screen bg-gray-100">
       <nav className="bg-white shadow-sm">
@@ -19,6 +21,4 @@ const MainLayout: FC<PropsWithChildren> = ({ children }) => {
       </main>
     </div>
   )
-}
-
-export default MainLayout 
+} 

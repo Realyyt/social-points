@@ -1,23 +1,19 @@
-import { createPublicClient, createWalletClient, http, custom } from 'viem'
-import { mainnet } from 'viem/chains'
-import { EthereumProvider } from '@walletconnect/ethereum-provider'
- 
+'use client'
 
- 
-//  Metamask
-export const walletClient = createWalletClient({
-  chain: mainnet,
-  transport: custom(window.ethereum!),
-})
- 
-//  WalletConnect
-const provider = await EthereumProvider.init({
-  projectId: "abcd1234",
-  showQrModal: true,
-  chains: [1],
-})
- 
-export const walletClientWC = createWalletClient({
-  chain: mainnet,
-  transport: custom(provider),
-})
+import { createWalletClient, custom } from 'viem'
+import { mainnet } from 'viem/chains'
+
+export function useWalletClient() {
+  if (typeof window === 'undefined') {
+    return undefined
+  }
+
+  if (!window.ethereum) {
+    return undefined
+  }
+
+  return createWalletClient({
+    chain: mainnet,
+    transport: custom(window.ethereum)
+  })
+}

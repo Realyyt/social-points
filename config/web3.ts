@@ -1,23 +1,17 @@
-import { configureChains, createConfig } from 'wagmi'
-import { goerli } from 'wagmi/chains'
-import { publicProvider } from 'wagmi/providers/public'
-import { getDefaultWallets } from '@rainbow-me/rainbowkit'
+import '@rainbow-me/rainbowkit/styles.css'
+import { http } from 'wagmi'
+import { mainnet } from 'wagmi/chains'
+import { getDefaultConfig } from '@rainbow-me/rainbowkit'
 
-const { chains, publicClient } = configureChains(
-  [goerli],
-  [publicProvider()]
-)
+if (!process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID) {
+  throw new Error('Missing NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID')
+}
 
-const { connectors } = getDefaultWallets({
+export const config = getDefaultConfig({
   appName: 'Social Points',
-  projectId: 'YOUR_WALLET_CONNECT_PROJECT_ID',
-  chains,
+  projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID,
+  chains: [mainnet],
+  transports: {
+    [mainnet.id]: http(),
+  },
 })
-
-export const wagmiConfig = createConfig({
-  autoConnect: true,
-  connectors,
-  publicClient,
-})
-
-export { chains } 
